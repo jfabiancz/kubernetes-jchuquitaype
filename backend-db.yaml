@@ -3,13 +3,11 @@ kind: Service
 metadata:
   name: backendapp
 spec:
+  ports:
+    - port: 5432
   selector:
     app: hello
     tier: postgres
-  ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: http
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -21,7 +19,7 @@ spec:
       app: hello
       tier: postgres
       track: stable
-  replicas: 7
+  replicas: 1
   template:
     metadata:
       labels:
@@ -31,15 +29,14 @@ spec:
     spec:
       containers:
         - image: mypostgres-db:1.0.0
-	  name: mypostgres
-	  env:
-	    - name: POSTGRES_USER
-	      value: postgres
-	    - name: POSTGRES_DB
-	      value: postgres
-	    - name: POSTGRES_PASSWORD
-	      value: 123456
+          name: mypostgres
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "123456"
           ports:
             - containerPort: 5432
               name: mypostgres
-              

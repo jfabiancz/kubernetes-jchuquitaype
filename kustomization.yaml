@@ -1,0 +1,4 @@
+resources:
+  - backend-db.yaml
+  - frontend-app.yaml
+  - frontend-nginx.yaml
